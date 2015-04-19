@@ -2,7 +2,7 @@ module ValidationExperience
   module Controller
     extend ActiveSupport::Concern
 
-    class_methods do
+    module ClassMethods
       def track_validation_experience(options = {})
         around_action :_track_validation_experience, options
       end
