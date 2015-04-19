@@ -88,7 +88,7 @@ in the following format:
 }
 ```
 
-You can write this to ElasticSearch, send to Librarto, KeenIO, Segment, or shove into PostgreSQL.  This part is up to you.
+You can write this to ElasticSearch, send to Librato, KeenIO, Segment, or shove into PostgreSQL.  This part is up to you.
 
 ## Contributing
 
