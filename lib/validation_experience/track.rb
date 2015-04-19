@@ -21,7 +21,9 @@ module ValidationExperience
     end
 
     def finish
-      report.call(context.to_h) if context
+      if context && !context.models.empty?
+        report.call(context.to_h)
+      end
     end
 
     def report
