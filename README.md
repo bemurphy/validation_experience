@@ -24,6 +24,7 @@ Or install it yourself as:
 
 Setup an initializer in `config/initializers/validation_experience`:
 
+```ruby
 # Opt in all models.  If you don't want all models tracked,
 # you can explicitly include the mixin in the models you want
 ActiveRecord::Base.include ValidationExperience::Model
@@ -34,6 +35,7 @@ ActiveRecord::Base.include ValidationExperience::Model
 ValidationExperience.report = Proc.new {|data| puts data}
 
 Then in your controllers you want to report on:
+```
 
 ```ruby
 class SignupController < ApplicationController
