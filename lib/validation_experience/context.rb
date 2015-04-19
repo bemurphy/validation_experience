@@ -16,19 +16,23 @@ module ValidationExperience
         :referrer   => request.referrer,
         :controller => request.params[:controller],
         :action     => request.params[:action],
-        :models     => models.map {|m| format_model(m) }
+        :models     => models.map { |m| format_model(m) }
       }
     end
+
+    private
 
     def format_model(model)
       {
         :id     => model.id,
         :name   => model.class.model_name.to_s,
-        :errors => model.errors.map do |name, message|
-          AttributeError.new(name, message, model[name]).to_h
-        end,
-        :valid => model.errors.empty?
+        :errors => model.errors.map { |name, msg| format_error(name, msg, model) },
+        :valid  => model.errors.empty?
       }
+    end
+
+    def format_error(name, message, model)
+      AttributeError.new(name, message, model[name]).to_h
     end
   end
 end
