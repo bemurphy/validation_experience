@@ -9,7 +9,7 @@ require "validation_experience/track"
 module ValidationExperience
   class LogReport
     def self.call(data)
-      Rails.logger.info("data = #{data}")
+      Rails.logger.info("validation_experience data = #{data}")
     end
   end
 
