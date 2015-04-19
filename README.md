@@ -65,6 +65,9 @@ end
 If you want to report in all your controllers, include it in your
 `ApplicationController` instead.
 
+Also, keep in mind that since this is designed to help track user
+form errors, HTTP GET requests are ignored.
+
 ## Report data
 
 Do whatever you want with your report data by assigning a handler to
