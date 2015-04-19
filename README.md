@@ -53,7 +53,7 @@ class SignupController < ApplicationController
   def create
     @signup = Signup.new(signup_params)
 
-    if signup.save
+    if @signup.save
       redirect_to "/", notice: "You're signed up!"
     else
       render :new
