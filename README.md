@@ -80,7 +80,7 @@ in the following format:
   :controller => "books",
   :action     => "create",
   :models     => [
-    {:id=>book1.id, :name=>"Book", :errors=>[], :valid=>true},
+    {:id=>42, :name=>"Book", :errors=>[], :valid=>true},
     {:id=>nil, :name=>"Book", :errors=>[
       {:name=>"title", :message=>"can't be blank", :value=>nil}
     ], :valid=>false}
