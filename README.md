@@ -68,7 +68,7 @@ If you want to report in all your controllers, include it in your
 ## Report data
 
 Do whatever you want with your report data by assigning a handler to
-`ValidationExperience.report`.  It receives `.call` with a hash of data
+`ValidationExperience.report`.  It receives `#call` with a hash of data
 in the following format:
 
 ```ruby
