@@ -22,11 +22,49 @@ Or install it yourself as:
 
 ## Usage
 
-TODO
+Setup an initializer in `config/initializers/validation_experience`:
+
+# Opt in all models.  If you don't want all models tracked,
+# you can explicitly include the mixin in the models you want
+ActiveRecord::Base.include ValidationExperience::Model
+
+# Inject the recording backend, by default it just logs
+# The report just needs to be something that responds to
+# `call` and accepts a hash of data
+ValidationExperience.report = Proc.new {|data| puts data}
+
+Then in your controllers you want to report on:
+
+```ruby
+class SignupController < ApplicationController
+  include ValidationExperience::Controller
+
+  # This calls `around_action`.  It will accept options
+  # like `:exclude` and `:only` and pass them on to `around_action`
+  track_validation_experience
+
+  def new
+    @signup = Signup.new
+  end
+
+  def create
+    @signup = Signup.new(signup_params)
+
+    if signup.save
+      redirect_to "/", notice: "You're signed up!"
+    else
+      render :new
+    end
+  end
+end
+```
+
+If you want to report in all your controllers, include it in your
+`ApplicationController` instead.
 
 ## Contributing
 
-1. Fork it ( http://github.com/bemurphy/validation_experience/fork )
+1. Fork it ( https://github.com/bemurphy/validation_experience/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
