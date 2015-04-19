@@ -78,7 +78,9 @@ in the following format:
   :action     => "create",
   :models     => [
     {:id=>book1.id, :name=>"Book", :errors=>[], :valid=>true},
-    {:id=>nil, :name=>"Book", :errors=>[{:name=>"title", :message=>"can't be blank", :value=>nil}], :valid=>false}
+    {:id=>nil, :name=>"Book", :errors=>[
+      {:name=>"title", :message=>"can't be blank", :value=>nil}
+    ], :valid=>false}
   ]
 }
 ```
