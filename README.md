@@ -34,8 +34,9 @@ ActiveRecord::Base.include ValidationExperience::Model
 # `call` and accepts a hash of data
 ValidationExperience.report = Proc.new {|data| puts data}
 
-Then in your controllers you want to report on:
 ```
+
+Then in your controllers you want to report on:
 
 ```ruby
 class SignupController < ApplicationController
