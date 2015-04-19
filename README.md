@@ -65,6 +65,25 @@ end
 If you want to report in all your controllers, include it in your
 `ApplicationController` instead.
 
+## Report data
+
+Do whatever you want with your report data via `ValidationExperience.report`.
+It receives a hash of data in the following format:
+
+```ruby
+{
+  :referrer   => "http://www.example.com/foo?bar=buzz",
+  :controller => "books",
+  :action     => "create",
+  :models     => [
+    {:id=>book1.id, :name=>"Book", :errors=>[], :valid=>true},
+    {:id=>nil, :name=>"Book", :errors=>[{:name=>"publishing_year", :message=>"can't be blank", :value=>nil}], :valid=>false}
+  ]
+}
+```
+
+You can write this to ElasticSearch, send to Librarto, KeenIO, Segment, or shove into PostgreSQL.  This part is up to you.
+
 ## Contributing
 
 1. Fork it ( https://github.com/bemurphy/validation_experience/fork )
