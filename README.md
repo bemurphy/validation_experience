@@ -68,6 +68,17 @@ If you want to report in all your controllers, include it in your
 Also, keep in mind that since this is designed to help track user
 form errors, HTTP GET requests are ignored.
 
+The controller tracking will also attempt to inject the current user
+if present.  By default, it will use a `current_user` method, only if
+present.  If you wish to override this behavior, override the controller
+method `validation_experience_user`
+
+```ruby
+def validation_experience_user
+  current_member || current_admin
+end
+```
+
 ## Report data
 
 Do whatever you want with your report data by assigning a handler to
@@ -79,6 +90,7 @@ in the following format:
   :referrer   => "http://www.example.com/foo?bar=buzz",
   :controller => "books",
   :action     => "create",
+  :user       => {:id=>42, :type=>"User"},
   :models     => [
     {:id=>42, :name=>"Book", :errors=>[], :valid=>true},
     {:id=>nil, :name=>"Book", :errors=>[
