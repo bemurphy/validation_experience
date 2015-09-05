@@ -42,7 +42,10 @@ class ContextTest < ActiveSupport::TestCase
       :referrer   => "http://www.example.com/foo?bar=buzz",
       :controller => "books",
       :action     => "create",
-      :user_id    => 42,
+      :user       => {
+        :id       => 42,
+        :type     => "OpenStruct"
+      },
       :models     => [
         {:id=>book1.id, :name=>"Book", :errors=>[], :valid=>true},
         {:id=>nil, :name=>"Book", :errors=>[{
@@ -67,7 +70,6 @@ class ContextTest < ActiveSupport::TestCase
 
     context = ValidationExperience::Context.new(request, nil)
 
-    assert context.to_h.has_key?(:user_id)
-    assert_nil context.to_h[:user_id]
+    refute context.to_h.has_key?(:user)
   end
 end

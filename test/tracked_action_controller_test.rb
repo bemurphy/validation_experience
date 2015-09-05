@@ -52,7 +52,7 @@ class TrackedActionControllerTest < ActionController::TestCase
     post :create, { user_id: 13, book: { publishing_year: "1984" } }
 
     assert_equal 1, ve_reported.length
-    assert_equal 13, ve_reported[0][:user_id]
+    assert_equal 13, ve_reported[0][:user][:id]
   end
 
   test "filter uses around_action options" do

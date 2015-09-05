@@ -16,7 +16,12 @@ module ValidationExperience
         :action     => request.params[:action],
         :models     => models.map { |m| format_model(m) }
       }.tap do |h|
-        h[:user_id] = user.try(:id)
+        if user
+          h[:user] = {
+            :id => user.id,
+            :type => user.class.name
+          }
+        end
       end
     end
 
