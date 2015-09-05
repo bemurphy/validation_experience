@@ -39,14 +39,15 @@ class ContextTest < ActiveSupport::TestCase
     context.models << book2
 
     expected = {
-      :referrer   => "http://www.example.com/foo?bar=buzz",
-      :controller => "books",
-      :action     => "create",
-      :user       => {
-        :id       => 42,
-        :type     => "OpenStruct"
+      :referrer    => "http://www.example.com/foo?bar=buzz",
+      :controller  => "books",
+      :action      => "create",
+      :user        => {
+        :id        => 42,
+        :type      => "OpenStruct"
       },
-      :models     => [
+      :any_invalid => true,
+      :models      => [
         {:id=>book1.id, :name=>"Book", :errors=>[], :valid=>true},
         {:id=>nil, :name=>"Book", :errors=>[{
           :name=>"publishing_year",
@@ -71,5 +72,18 @@ class ContextTest < ActiveSupport::TestCase
     context = ValidationExperience::Context.new(request, nil)
 
     refute context.to_h.has_key?(:user)
+  end
+
+  test "nothing is invalid is noted :any_invalid => false" do
+    request = OpenStruct.new({
+      :referrer   => "http://www.example.com/foo?bar=buzz",
+      :params     => {
+        :controller => "books",
+        :action     => "create"
+      }
+    })
+
+    context = ValidationExperience::Context.new(request)
+    assert_equal false, context.to_h[:any_invalid]
   end
 end
