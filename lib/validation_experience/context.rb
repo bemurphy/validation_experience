@@ -16,12 +16,8 @@ module ValidationExperience
         :action     => request.params[:action],
         :models     => models.map { |m| format_model(m) }
       }.tap do |h|
-        if user
-          h[:user] = {
-            :id => user.id,
-            :type => user.class.name
-          }
-        end
+        insert_user(h)
+        any_invalid(h)
       end
     end
 
@@ -40,6 +36,21 @@ module ValidationExperience
 
     def format_error(name, message, model)
       AttributeError.new(name, message, model[name]).to_h
+    end
+
+    def insert_user(h)
+      if user
+        h[:user] = {
+          :id => user.id,
+          :type => user.class.name
+        }
+      end
+
+      h
+    end
+
+    def any_invalid(h)
+      h[:any_invalid] = h[:models].any? { |m| m[:valid] == false }
     end
   end
 end
