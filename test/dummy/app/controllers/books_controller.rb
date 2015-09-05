@@ -1,6 +1,14 @@
 class BooksController < ApplicationController
   include ValidationExperience::Controller
 
+  attr_accessor :current_user
+
+  before_filter do
+    if params[:user_id]
+      self.current_user = OpenStruct.new(:id => params[:user_id].to_i)
+    end
+  end
+
   track_validation_experience except: :excluded_post
 
   def create
