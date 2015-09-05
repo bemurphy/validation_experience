@@ -33,8 +33,9 @@ class TrackedActionControllerTest < ActionController::TestCase
     assert_equal "books", report[:controller]
     assert_equal "create", report[:action]
 
-    assert_equal [{:id=>nil, :name=>"Book", :errors=>[{:name=>"title", :message=>"can't be blank", :value=>nil}], :valid=>false}],
-      report[:models]
+    assert_equal [{:id=>nil, :name=>"Book", :errors=>[{
+      :name=>"title", :message=>"can't be blank", :value=>nil }],
+      :valid=>false}], report[:models]
   end
 
   test "creating multiple records in a single request" do
@@ -45,6 +46,13 @@ class TrackedActionControllerTest < ActionController::TestCase
     assert_equal 2, Book.count
     assert_equal 1, ve_reported.length
     assert_equal 2, ve_reported[0][:models].length
+  end
+
+  test "the current user can be included in tracking" do
+    post :create, { user_id: 13, book: { publishing_year: "1984" } }
+
+    assert_equal 1, ve_reported.length
+    assert_equal 13, ve_reported[0][:user_id]
   end
 
   test "filter uses around_action options" do

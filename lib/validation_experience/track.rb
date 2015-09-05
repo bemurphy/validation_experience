@@ -8,11 +8,11 @@ module ValidationExperience
       instance.report = value
     end
 
-    def start(request)
+    def start(request, user = nil)
       self.context = nil
 
       unless request.get?
-        self.context = Context.new(request)
+        self.context = Context.new(request, user)
       end
     end
 
