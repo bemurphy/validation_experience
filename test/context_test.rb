@@ -26,7 +26,9 @@ class ContextTest < ActiveSupport::TestCase
       }
     })
 
-    context = ValidationExperience::Context.new(request)
+    user = OpenStruct.new({:id => 42})
+
+    context = ValidationExperience::Context.new(request, user)
 
     book1 = Book.new(title: "A Title", publishing_year: "1984")
     book1.validate
@@ -40,12 +42,32 @@ class ContextTest < ActiveSupport::TestCase
       :referrer   => "http://www.example.com/foo?bar=buzz",
       :controller => "books",
       :action     => "create",
+      :user_id    => 42,
       :models     => [
         {:id=>book1.id, :name=>"Book", :errors=>[], :valid=>true},
-        {:id=>nil, :name=>"Book", :errors=>[{:name=>"publishing_year", :message=>"can't be blank", :value=>nil}], :valid=>false}
+        {:id=>nil, :name=>"Book", :errors=>[{
+          :name=>"publishing_year",
+          :message=>"can't be blank",
+          :value=>nil
+        }], :valid=>false}
       ]
     }
 
     assert_equal expected, context.to_h
+  end
+
+  test "a nil user is tolerated" do
+    request = OpenStruct.new({
+      :referrer   => "http://www.example.com/foo?bar=buzz",
+      :params     => {
+        :controller => "books",
+        :action     => "create"
+      }
+    })
+
+    context = ValidationExperience::Context.new(request, nil)
+
+    assert context.to_h.has_key?(:user_id)
+    assert_nil context.to_h[:user_id]
   end
 end

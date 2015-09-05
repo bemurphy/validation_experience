@@ -1,10 +1,8 @@
 module ValidationExperience
   class Context
-    attr_reader :request
-    private :request
-
-    def initialize(request)
+    def initialize(request, user = nil)
       @request = request
+      @user    = user
     end
 
     def models
@@ -17,10 +15,14 @@ module ValidationExperience
         :controller => request.params[:controller],
         :action     => request.params[:action],
         :models     => models.map { |m| format_model(m) }
-      }
+      }.tap do |h|
+        h[:user_id] = user.try(:id)
+      end
     end
 
     private
+
+    attr_reader :request, :user
 
     def format_model(model)
       {
